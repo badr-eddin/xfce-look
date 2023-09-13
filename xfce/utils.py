@@ -1,3 +1,4 @@
+import datetime
 import os
 import re
 import sys
@@ -38,8 +39,8 @@ def get_url_query(s=None, p=0):
     return SEARCH_URL + parse_url.urlencode(o), q
 
 
-def debug(*args, __l=False, c=1):
-
+def debug(*args, __l=False, c=1, pre=""):
+    tm = datetime.datetime.now().strftime("[%H:%M:%S]")
     cl = {
         1: Fore.BLUE,
         -1: Fore.MAGENTA,
@@ -53,7 +54,7 @@ def debug(*args, __l=False, c=1):
             a += str(i) + " "
         sys.stdout.write("\r " + cl + a + Fore.RESET)
     else:
-        print(cl, *args, Fore.RESET)
+        print(pre + cl + tm, *args, Fore.RESET)
 
 
 def format_(__t, __s="", __n=""):
@@ -78,12 +79,13 @@ def tabulate(d):
 def exception_handler(*args):
     if os.getenv("DEV_END"):
         print(*args)
-    debug("good bye !", c=0)
+    debug("good bye !", c=0, pre="\n")
 
 
 def print_startup_msg():
     header_footer = "*" * 84
     info = [
+        "* Customize your Window, your GTK theme and your Cursors *",
         "Author: badr-eddin",
         "GitHub: 'https://github.com/badr-eddin'",
         "Repository: 'https://github.com/badr-eddin/xfce-look'",
@@ -91,13 +93,16 @@ def print_startup_msg():
         "This tool allows you to download and set xfce-theme from 'https://xfce-look.org'",
         "Currently supported categories (v0.1):",
         "  - GTK3/4 Themes",
+        "  - GTK2 Themes",
+        "  - XFCE/XFWM4 Themes",
         "  - Full Icon Themes",
         "  - Cursors",
         "  - Wallpapers (png, jpg, jpeg)",
-        "Support me at: 'https://www.buymeacoffee.com/badreddin08'"
+        "Support me at: 'https://www.buymeacoffee.com/badreddin08'",
+        "gui app is coming soon inchae allah ..."
     ]
 
-    print(header_footer)
+    # print(header_footer)
     for line in info:
-        print("* {:<80} *".format(line))
-    print(header_footer)
+        print("", line)
+    # print(header_footer)

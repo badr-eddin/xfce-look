@@ -132,6 +132,8 @@ def save_xfce_package(p, c):
     dst = {
         "GTK3/4 Themes": os.path.join(os.path.expanduser("~"), ".themes"),
         "Full Icon Themes": os.path.join(os.path.expanduser("~"), ".icons"),
+        "XFCE/XFWM4 Themes": os.path.join(os.path.expanduser("~"), ".themes"),
+        "GTK2 Themes": os.path.join(os.path.expanduser("~"), ".themes"),
         "Cursors": os.path.join(os.path.expanduser("~"), ".icons"),
     }
     dst_ = None
