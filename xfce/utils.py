@@ -5,8 +5,8 @@ import urllib.parse as parse_url
 from colorama import Fore
 from tabulate import tabulate as tab
 
-URL = "https://www.xfce-look.org"  # The main URL
-SEARCH_URL = "https://www.xfce-look.org/find?"  # The search URL
+URL = "https://xfce-look.org"  # The main URL
+SEARCH_URL = "https://xfce-look.org/find?"  # The search URL
 keys = {
     "id": Fore.MAGENTA + "id" + Fore.RESET,
     "title": Fore.MAGENTA + "title" + Fore.RESET,
@@ -38,14 +38,22 @@ def get_url_query(s=None, p=0):
     return SEARCH_URL + parse_url.urlencode(o), q
 
 
-def debug(*args, __l=False):
+def debug(*args, __l=False, c=1):
+
+    cl = {
+        1: Fore.BLUE,
+        -1: Fore.MAGENTA,
+        0: Fore.RED,
+        2: Fore.GREEN
+    }.get(c)
+
     if __l:
         a = ""
         for i in args:
             a += str(i) + " "
-        sys.stdout.write("\r " + Fore.BLUE + a + Fore.RESET)
+        sys.stdout.write("\r " + cl + a + Fore.RESET)
     else:
-        print(Fore.BLUE, *args, Fore.RESET)
+        print(cl, *args, Fore.RESET)
 
 
 def format_(__t, __s="", __n=""):
@@ -70,7 +78,7 @@ def tabulate(d):
 def exception_handler(*args):
     if os.getenv("DEV_END"):
         print(*args)
-    debug("good bye !")
+    debug("good bye !", c=0)
 
 
 def print_startup_msg():

@@ -19,9 +19,9 @@ def get_id_prompt(count):
         elif selection.isdigit():
             if int(selection) <= count:
                 return int(selection)
-            debug(f"enter a valid selection !")
+            debug(f"enter a valid selection !", c=0)
         else:
-            debug(f"enter a valid selection !")
+            debug(f"enter a valid selection !", c=0)
 
 
 def get_stream_files(u):
@@ -57,7 +57,7 @@ def print_selection(d):
             del nd[v]
 
     if not nd:
-        debug("no downloads available !")
+        debug("no downloads available !", c=0)
         split()
         return -1
 
@@ -76,9 +76,9 @@ def print_selection(d):
         elif n.isdigit():
             if int(n) <= len(d.keys()):
                 return int(n) - 1
-            debug(f"enter a valid selection !")
+            debug(f"enter a valid selection !", c=0)
         else:
-            debug(f"enter a valid selection !")
+            debug(f"enter a valid selection !", c=0)
 
 
 recursion_counter = 0
@@ -96,7 +96,7 @@ def _download(s, r=False):
     if recursion_counter < 10:
         recursion_counter += 1
         if r:
-            debug(f"trying for the {recursion_counter}th time ...")
+            debug(f"trying for the {recursion_counter}th time ...", c=0)
         try:
             response = requests.get(s, stream=True)
             x = 1024 ** 2
@@ -113,7 +113,7 @@ def _download(s, r=False):
             _ = e
             return _download(s, True)
     else:
-        debug("timeout ! try again and make sure you are connected to the network !")
+        debug("timeout ! try again and make sure you are connected to the network !", c=-1)
         return -1
 
 
@@ -153,11 +153,11 @@ def save_xfce_package(p, c):
             os.mkdir(img_dst)
 
         shutil.copy2(p, img_dst)
-        debug(f"this seems a wallpaper, it is saved in [{img_dst}]")
+        debug(f"this seems is a wallpaper, it is saved in [{img_dst}]", c=2)
 
     else:
         shutil.copy2(p, dw)
-        debug(f"unrecognized category ! exporting '{os.path.basename(p)}' to '{dw}'")
+        debug(f"unrecognized category ! exporting '{os.path.basename(p)}' to '{dw}'", c=2)
 
     # get rid of the whole tmp dir
     shutil.rmtree(os.path.split(p)[0])
@@ -169,7 +169,7 @@ def download(data, c):
         if s >= 0:
             url_ = data[keys['url']][s]
             split()
-            debug(f"getting {data[keys['title']][s]} ...")
+            debug(f"getting {data[keys['title']][s]} ...", c=2)
             jsd = get_stream_files(url_)
             k = print_selection(jsd)
             if k >= 0:

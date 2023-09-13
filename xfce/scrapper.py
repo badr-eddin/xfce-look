@@ -12,7 +12,7 @@ def scrap():
     pages = get_pages(url)
     _l = False
 
-    debug(f"getting page [{url}] ...")
+    debug(f"getting page [{url}] ...", c=2)
 
     results = []
 
@@ -20,7 +20,7 @@ def scrap():
         bs4 = BeautifulSoup(requests.get(get_url_query(_q, page)[0]).content, features="lxml")
 
         # ------------------------- Searching for item card ----------------------------------
-        debug(f"surfing page [{page}/{pages}] ...", __l=not _l)
+        debug(f"surfing page [{page}/{pages}] ...", __l=not _l, c=2)
 
         results = bs4.find_all("div", class_="explore-product")
 
