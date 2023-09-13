@@ -13,4 +13,5 @@ Currently supported categories (v0.1):
 - Cursors
 - Wallpapers (png, jpg, jpeg)
 Support me at: [![coffee](./img/buymeacoffee.png)](https://www.buymeacoffee.com/badreddin08)
-gui app is coming soon inchaa allah ...
+
+__gui app is coming soon inchaa allah ...__
