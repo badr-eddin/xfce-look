@@ -8,7 +8,7 @@ import tempfile
 import patoolib
 import urllib.parse as parse_url
 from rich.progress import track
-from .utils import archive_types
+from .utils import archive_types, img_types
 
 
 def get_id_prompt(count):
@@ -45,12 +45,14 @@ def print_selection(d):
     split()
     k = d.keys()
     nd = d.copy()
+    x = 0
     for i, v in enumerate(k):
         ext = os.path.splitext(v)[1]
-        if ext in archive_types:
-            print(Fore.MAGENTA, i + 1,
+        if ext in archive_types + img_types:
+            print(Fore.MAGENTA, x + 1,
                   Fore.RESET + ": " + Fore.GREEN + v + " |",
-                  str(round((int(d[v].get("size") or "0")) / 1024 / 1024)) + "MB", Fore.RESET)
+                  str(round((int(d[v].get("size") or "0")) / 1024)) + "KB", Fore.RESET)
+            x += 1
         else:
             del nd[v]
 
@@ -99,7 +101,8 @@ def _download(s, r=False):
             response = requests.get(s, stream=True)
             x = 1024 ** 2
             size = int(response.headers.get('content-length', 0))
-            progress_bar = track(response.iter_content(chunk_size=x), " downloading ...", total=size/x)
+            progress_bar = track(response.iter_content(chunk_size=x),
+                                 f" downloading '{os.path.basename(filename)}' ...", total=size/x)
 
             with open(filename, 'wb') as f:
                 for chunk in progress_bar:
@@ -138,6 +141,20 @@ def save_xfce_package(p, c):
 
     if dst_:
         patoolib.extract_archive(p, -1, dst_)
+
+    elif os.path.splitext(p)[1] in img_types:
+        img_dst = os.path.join(os.path.expanduser('~'), ".config")
+
+        if not os.path.exists(img_dst):
+            os.mkdir(img_dst)
+
+        img_dst = os.path.join(os.path.expanduser('~'), ".config", "Wallpapers")
+        if not os.path.exists(img_dst):
+            os.mkdir(img_dst)
+
+        shutil.copy2(p, img_dst)
+        debug(f"this seems a wallpaper, it is saved in [{img_dst}]")
+
     else:
         shutil.copy2(p, dw)
         debug(f"unrecognized category ! exporting '{os.path.basename(p)}' to '{dw}'")
